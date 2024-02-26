@@ -1,10 +1,11 @@
 import csv
 import requests
 from bs4 import BeautifulSoup
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key="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")
 
 # Define your OpenAI API key here ---------------------------------------- Customization required ----------------------------------------
-openai.api_key =  "YOUR_API_KEY"
 
 
 # Function to scrape website data and clean tags
@@ -52,13 +53,12 @@ def generate_customized_email(client_name, client_website, scraped_data, sender_
         make sure the email is from sender's product, personalized and relevant to the client's business.'''
         
         # Call the OpenAI API to generate the customized email
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=300,  # Adjust the max_tokens as needed for your email length
-            stop=None,
-            temperature=0.7,
-        )
+        response = client.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt=prompt,
+        max_tokens=300,  # Adjust the max_tokens as needed for your email length
+        stop=None,
+        temperature=0.7)
 
         # Extract the generated email text from the API response
         generated_email = response.choices[0].text
@@ -78,9 +78,9 @@ with open(input_csv_file, 'r') as csv_file:
     rows = list(reader)
 
 # Define sender information ---------------------------------------- Customization required ----------------------------------------
-sender_name = "John Wick"
-sender_product_detail = "We create digital marketing campaigns that drive traffic, convert visitors into leads and sales, and scale your business fast."
-sender_product_name = "Digital Alpha"
+sender_name = "Usman Khan"
+sender_product_detail = "Tech consultation, Digital product developments and markeeting."
+sender_product_name = "2BTech LLC"
 
 # Create or open the output CSV file for writing
 with open(output_csv_file, 'w', newline='') as csv_output_file:
