@@ -56,7 +56,7 @@ def generate_customized_email(client_name, client_website, scraped_data, sender_
         response = client.completions.create(
         model="gpt-3.5-turbo-instruct",
         prompt=prompt,
-        max_tokens=300,  # Adjust the max_tokens as needed for your email length
+        max_tokens=150,  # Adjust the max_tokens as needed for your email length
         stop=None,
         temperature=0.7)
 
